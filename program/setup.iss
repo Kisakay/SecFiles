@@ -18,7 +18,7 @@ Source: "scripts\simple_uninstaller.ps1"; DestDir: "{app}"; DestName: "uninstall
 Filename: "powershell.exe"; \
     Parameters: "-ExecutionPolicy Bypass -File ""{app}\install.ps1"""; \
     StatusMsg: "Exécution du script d'installation..."; \
-    Flags: runhidden runascurrentuser
+    Flags: runhidden runascurrentuser nowait
 
 [UninstallRun]
 ; Exécution du script de désinstallation AVANT suppression des fichiers
