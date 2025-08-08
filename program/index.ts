@@ -1,6 +1,6 @@
 // main.ts - Enhanced TypeScript application with sexsec encryption/decryption
-import { readFileSync, existsSync, statSync, readdirSync, writeFileSync, unlinkSync, renameSync } from 'fs';
-import { basename, extname, resolve, dirname, join } from 'path';
+import { readFileSync, existsSync, statSync, readdirSync, writeFileSync, unlinkSync } from 'fs';
+import { basename, extname, resolve } from 'path';
 import * as readline from 'readline';
 import { sexsec } from 'sexsec';
 
@@ -101,9 +101,8 @@ class SexFileHandler {
         console.log(`📁 Path: ${filePath}`);
 
         try {
-            // Read the encrypted content
-            const encryptedContent = readFileSync(filePath, 'utf-8');
-            console.log(`📊 Encrypted content size: ${encryptedContent.length} characters`);
+            const stats = statSync(filePath);
+            console.log(`📊 Encrypted file size: ${this.formatFileSize(stats.size)}`);
 
             // Get password from user
             const password = await this.getPassword('🔑 Enter decryption password: ');
@@ -118,18 +117,12 @@ class SexFileHandler {
 
             console.log('🔄 Decrypting file...');
 
-            // Decrypt the content
-            const decryptedContent = sexsec.decryptFile(encryptedContent);
-            
-            // Determine output filename (remove .sex extension)
-            const outputPath = filePath.replace(/\.sex$/i, '');
-            
-            // Write decrypted content to file
-            writeFileSync(outputPath, decryptedContent);
+            // Use sexsec.decryptFile with the file path directly
+            const decryptedFilePath = await sexsec.decryptFile(filePath);
 
             console.log('✅ File decrypted successfully!');
-            console.log(`📄 Decrypted file: ${basename(outputPath)}`);
-            console.log(`📁 Saved to: ${outputPath}`);
+            console.log(`📄 Decrypted file: ${basename(decryptedFilePath)}`);
+            console.log(`📁 Saved to: ${decryptedFilePath}`);
 
             // Ask if user wants to delete the encrypted file
             const deleteOriginal = await this.askYesNo('🗑️  Delete the encrypted .sex file? (y/N): ');
@@ -161,11 +154,6 @@ class SexFileHandler {
             console.log(`📊 Size: ${this.formatFileSize(stats.size)}`);
             console.log(`📅 Modified: ${stats.mtime.toLocaleString()}`);
 
-            // Read file content
-            console.log('📖 Reading file content...');
-            const content = readFileSync(filePath, 'utf-8');
-            console.log(`📊 Content length: ${content.length} characters`);
-
             // Get password from user
             const password = await this.getPassword('🔑 Enter encryption password: ');
 
@@ -187,11 +175,12 @@ class SexFileHandler {
 
             console.log('🔄 Encrypting file...');
 
-            // Encrypt the content and get the result
-            const sexFilePath = sexsec.encryptFile(content);
-        
+            // Use sexsec.encryptFile with the file path directly
+            const encryptedFilePath = await sexsec.encryptFile(filePath);
+
             console.log('✅ File encrypted successfully!');
-            console.log(`📁 Saved to: ${sexFilePath}`);
+            console.log(`🔒 Encrypted file: ${basename(encryptedFilePath)}`);
+            console.log(`📁 Saved to: ${encryptedFilePath}`);
 
             // Ask if user wants to delete the original file
             const deleteOriginal = await this.askYesNo('🗑️  Delete the original unencrypted file? (y/N): ');
