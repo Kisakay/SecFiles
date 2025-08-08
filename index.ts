@@ -23,12 +23,12 @@ log(`
 
 log("> An easy way to encrypt/decrypt files in this terminal\r\n\n".italic.yellow);
 
+let key = await ask("What's your encryption/decryption key ?".gray + " >> ".white);
+sexsec.changeKey(key);
+
 async function loop() {
 
   let action = await ask("Wanna encode or decode ?".gray + " (e/d)".blue + " >> ".white);
-  let key = await ask("What's your encryption/decryption key ?".gray + " >> ".white);
-
-  sexsec.changeKey(key);
 
   if (action.toLowerCase() === "e") {
     let path = await ask("What's the path of the files/directory to ".gray + "encrypt".boldText.gray + " ?".gray + " >> ".white);
