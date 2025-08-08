@@ -1,0 +1,21 @@
+{
+  "name": "program",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "scripts": {
+    "dev": "bun run main.ts",
+    "build": "bun build main.ts --compile --outfile sex-file-handler.exe --target bun-windows-x64",
+    "build-debug": "bun build main.ts --compile --outfile sex-file-handler.exe --target bun-windows-x64 --minify",
+    "test": "bun run main.ts test-file.sex"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "sexsec": "^1.1.0"
+  }
+}
