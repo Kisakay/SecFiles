@@ -279,13 +279,19 @@ class SexFileHandler {
                 return;
             }
 
+            // Ask if user wants to delete original files after encryption
+            const deleteOriginals = await this.askYesNo('🗑️  Delete original files after encryption? (y/N): ');
+
             console.log('🔄 Setting encryption key...');
             sexsec.changeKey(password);
             
             console.log('🔄 Encrypting directory...');
-            await sexsec.encryptDir(dirPath);
+            await sexsec.encryptDir(dirPath, deleteOriginals);
             
             console.log('✅ Directory encryption completed!');
+            if (deleteOriginals) {
+                console.log('🗑️  Original files have been deleted');
+            }
 
         } catch (error) {
             console.error('❌ Directory encryption failed:', error);
@@ -315,13 +321,19 @@ class SexFileHandler {
                 return;
             }
 
+            // Ask if user wants to delete encrypted files after decryption
+            const deleteEncrypted = await this.askYesNo('🗑️  Delete encrypted .sex files after decryption? (y/N): ');
+
             console.log('🔄 Setting decryption key...');
             sexsec.changeKey(password);
             
             console.log('🔄 Decrypting directory...');
-            await sexsec.decryptDir(dirPath);
+            await sexsec.decryptDir(dirPath, deleteEncrypted);
             
             console.log('✅ Directory decryption completed!');
+            if (deleteEncrypted) {
+                console.log('🗑️  Encrypted .sex files have been deleted');
+            }
 
         } catch (error) {
             console.error('❌ Directory decryption failed:', error);
