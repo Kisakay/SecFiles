@@ -2,7 +2,7 @@
 echo Building SEX file handler with Bun...
 
 REM Clean previous build
-if exist sex-file-handler.exe del sex-file-handler.exeexe
+if exist sex-file-handler.exe del sex-file-handler.exe
 
 REM Build the executable
 bun build index.ts --compile --outfile sex-file-handler.exe --windows-icon=sexfiles.ico
