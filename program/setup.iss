@@ -14,14 +14,14 @@ Source: "scripts\simple_installer.ps1"; DestDir: "{app}"; DestName: "install.ps1
 Source: "scripts\simple_uninstaller.ps1"; DestDir: "{app}"; DestName: "uninstaller.ps1"; Flags: ignoreversion
 
 [Run]
-; Exécution du script d'installation après l'installation
+; Execute the installation script with the required ExecutablePath parameter
 Filename: "powershell.exe"; \
-    Parameters: "-ExecutionPolicy Bypass -File ""{app}\install.ps1"""; \
-    StatusMsg: "Exécution du script d'installation..."; \
-    Flags: runhidden runascurrentuser nowait
+    Parameters: "-ExecutionPolicy Bypass -File ""{app}\install.ps1"" -ExecutablePath ""{app}\sex-file-handler.exe"""; \
+    StatusMsg: "Installing file associations..."; \
+    Flags: runhidden runascurrentuser
 
 [UninstallRun]
-; Exécution du script de désinstallation AVANT suppression des fichiers
+; Execute the uninstaller script before file removal
 Filename: "powershell.exe"; \
     Parameters: "-ExecutionPolicy Bypass -File ""{app}\uninstaller.ps1"""; \
     RunOnceId: "RunPS1OnUninstall"; \
